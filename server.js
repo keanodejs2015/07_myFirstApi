@@ -27,12 +27,19 @@ app.get('/users/:id', function(req, res) {
             '_id': ObjectID(req.params.id)
         }, function(err, result) {
 
-            if (result === null) {
-                status(404).send({"msg": "404"});
+            if (err) {
+                res.status(500).send({
+                    "message": "Internal Server Error"
+                });
+            }
+            else if (result === null) {
+                res.status(404).send({
+                    "msg": "404"
+                });
             } else {
-            	res.status(200); //ok
+                res.status(200); //ok
                 res.json(result);
-                
+
             }
 
             db.close();
